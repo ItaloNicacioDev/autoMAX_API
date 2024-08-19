@@ -1,6 +1,8 @@
 #ver 0.0.5 - BETA
 #bibliotecas
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+
+
 
 app = Flask(__name__)
 
@@ -30,6 +32,12 @@ def register():
     })
 
     return jsonify({"message": "User registered successfully"}), 201
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
