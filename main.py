@@ -1,114 +1,43 @@
-# ver 0.0.5 - BETA
-# bibliotecas
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session
-import mysql.connector
-from mysql.connector import Error
-from werkzeug.security import check_password_hash, generate_password_hash
+#ver 0.0.12 - BETA
+#bibliotecas
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+
+
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Chave secreta para sessões e flash messages
 
-# Configurações do banco de dados
-DB_CONFIG = {
-    'host': 'localhost',
-    'database': 'your_database_name',
-    'user': 'your_username',
-    'password': 'your_password'
-}
+# Simula um banco de dados em memória
+users_db = []
 
-def get_db_connection():
-    return mysql.connector.connect(**DB_CONFIG)
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
 
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM empresasUser WHERE username = %s', (username,))
-        user = cursor.fetchone()
-
-        if user and check_password_hash(user['password'], password):
-            session['user_id'] = user['id']
-            return redirect(url_for('employees'))  # Redireciona para a página de funcionários
-        else:
-            return render_template('login.html', error_message='Usuário ou senha inválidos.')
-    except Error as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "Database error"}), 500
-    finally:
-        cursor.close()
-        conn.close()
-
-@app.route('/employees')
-def employees():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    return render_template('employees.html')
-
-@app.route('/get_employees')
-def get_employees():
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM employees')
-        employees = cursor.fetchall()
-        return jsonify(employees)
-    except Error as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "Database error"}), 500
-    finally:
-        cursor.close()
-        conn.close()
-
-@app.route('/add_employee', methods=['POST'])
-def add_employee():
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
-
-    name = request.form.get('name')
-    position = request.form.get('position')
-    salary = request.form.get('salary')
-
-    if not name or not position or not salary:
+    if not username or not email or not password:
         return jsonify({"error": "All fields are required"}), 400
 
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO employees (name, position, salary) VALUES (%s, %s, %s)',
-                       (name, position, salary))
-        conn.commit()
-        return jsonify({"message": "Employee added successfully"}), 201
-    except Error as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "Database error"}), 500
-    finally:
-        cursor.close()
-        conn.close()
+    # Verifica se o usuário já existe
+    for user in users_db:
+        if user['email'] == email:
+            return jsonify({"error": "User already exists"}), 400
 
-@app.route('/delete_employee/<int:employee_id>', methods=['DELETE'])
-def delete_employee(employee_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
+    # Adiciona o usuário ao banco de dados simulado
+    users_db.append({
+        "username": username,
+        "email": email,
+        "password": password
+    })
 
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM employees WHERE id = %s', (employee_id,))
-        conn.commit()
-        return jsonify({"message": "Employee deleted successfully"}), 200
-    except Error as e:
-        print(f"Error: {e}")
-        return jsonify({"error": "Database error"}), 500
-    finally:
-        cursor.close()
-        conn.close()
+    return jsonify({"message": "User registered successfully"}), 201
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
