@@ -1,4 +1,4 @@
-#ver 0.0.12 - BETA
+#ver 0.0.25 - BETA
 #bibliotecas
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
