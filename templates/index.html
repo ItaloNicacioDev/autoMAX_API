@@ -59,7 +59,7 @@
         <form action="/login" method="post">
             <input type="text" name="username" placeholder="Usuário" required>
             <input type="password" name="password" placeholder="Senha" required>
-            <button type="button" onclick="navigateTo('templates/employees')">Entrar</button>
+            <button type="button" onclick="navigateTo('templates/employees.html')">Entrar</button>
         </form>
         {% if error_message %}
             <p class="error-message">{{ error_message }}</p>
