@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35cae1ff-e439-4b32-b70c-99fa7a146118" name="Changes" comment="ver 0.0.8">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="35cae1ff-e439-4b32-b70c-99fa7a146118" name="Changes" comment="ver 0.0.12" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,8 +13,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -41,7 +37,9 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2kt5kJuDIP8VEMzQ07JcJe4dTIN" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -142,14 +140,31 @@
       <option name="project" value="LOCAL" />
       <updated>1724096345155</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ver 0.0.8">
+      <option name="closed" value="true" />
+      <created>1724181026198</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1724181026198</updated>
+    </task>
+    <task id="LOCAL-00008" summary="ver 0.0.12">
+      <option name="closed" value="true" />
+      <created>1724181039090</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1724181039090</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="New Projetct API" />
     <MESSAGE value="ver 0.0.5" />
     <MESSAGE value="ver 0.0.8" />
-    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.8" />
+    <MESSAGE value="ver 0.0.12" />
+    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.12" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
