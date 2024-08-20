@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <title>AutoMAX</title>
@@ -52,21 +51,7 @@
             text-align: center;
         }
   </style>
-
-
 </head>
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-<ul class="flashes">
-  {% for category, message in messages %}
-  <li class="{{ category }}">{{ message }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-
-
 <body>
   {% include 'header.html' %}
   <div class="login-container">
@@ -81,5 +66,4 @@
         {% endif %}
     </div>
 </body>
-
 </html>
