@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Funcionários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            background-color: #007bff;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            color: green;
+            text-align: center;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciar Funcionários</h1>
+
+        <form action="/add_employee" method="post" id="addEmployeeForm">
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="position">Cargo</label>
+                <input type="text" id="position" name="position" required>
+            </div>
+            <div class="form-group">
+                <label for="salary">Salário</label>
+                <input type="number" id="salary" name="salary" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Adicionar Funcionário</button>
+            </div>
+        </form>
+
+        <div class="message" id="message"></div>
+        <div class="error" id="error"></div>
+
+        <h2>Funcionários</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Cargo</th>
+                    <th>Salário</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="employeesTable">
+                <!-- Employees will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchEmployees();
+
+            document.getElementById('addEmployeeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addEmployee();
+            });
+        });
+
+        function fetchEmployees() {
+            fetch('/get_employees')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('employeesTable');
+                    tableBody.innerHTML = '';
+
+                    data.forEach(employee => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${employee.id}</td>
+                            <td>${employee.name}</td>
+                            <td>${employee.position}</td>
+                            <td>${employee.salary}</td>
+                            <td>
+                                <button onclick="editEmployee(${employee.id})">Editar</button>
+                                <button onclick="deleteEmployee(${employee.id})">Excluir</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                });
+        }
+
+        function addEmployee() {
+            const formData = new FormData(document.getElementById('addEmployeeForm'));
+            fetch('/add_employee', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    document.getElementById('message').textContent = data.message;
+                    fetchEmployees();
+                } else if (data.error) {
+                    document.getElementById('error').textContent = data.error;
+                }
+            });
+        }
+
+        function editEmployee(id) {
+            // Implement edit logic
+            console.log('Edit employee with ID:', id);
+        }
+
+        function deleteEmployee(id) {
+            fetch(`/delete_employee/${id}`, { method: 'DELETE' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        document.getElementById('message').textContent = data.message;
+                        fetchEmployees();
+                    } else if (data.error) {
+                        document.getElementById('error').textContent = data.error;
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
