@@ -4,22 +4,31 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 import mysql.connector
 from mysql.connector import Error
 from werkzeug.security import check_password_hash, generate_password_hash
+import os
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Chave secreta para sessões e flash messages
+app.secret_key = os.environ.get('FLASK_SECRET_KEY',
+                                'supersecretkey')  # Use uma variável de ambiente para a chave secreta
 
 # Configurações do banco de dados
 DB_CONFIG = {
     'host': 'localhost',
     'database': 'automax',
     'user': 'root',
-    'password': '@Eufr4sio123'
+    'password': os.environ.get('DB_PASSWORD', '@Eufr4sio123')  # Use uma variável de ambiente para a senha
 }
 
-def get_db_connection():
-    return mysql.connector.connect(**DB_CONFIG)
 
-#faz  a ligação de login no mysql
+def get_db_connection():
+    """ Cria e retorna uma nova conexão com o banco de dados. """
+    try:
+        connection = mysql.connector.connect(**DB_CONFIG)
+        return connection
+    except Error as e:
+        print(f"Error connecting to MySQL: {e}")
+        return None
+
+
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')
@@ -27,6 +36,10 @@ def login():
 
     try:
         conn = get_db_connection()
+        if conn is None:
+            flash('Erro ao conectar ao banco de dados.', 'error')
+            return redirect(url_for('index'))
+
         cursor = conn.cursor(dictionary=True)
         cursor.execute('SELECT * FROM empresasUser WHERE username = %s', (username,))
         user = cursor.fetchone()
@@ -39,11 +52,14 @@ def login():
             return redirect(url_for('index'))
     except Exception as e:
         print(f"Error: {e}")
-        flash('Erro ao conectar ao banco de dados.', 'error')
+        flash('Erro ao processar sua solicitação.', 'error')
         return redirect(url_for('index'))
     finally:
-        cursor.close()
-        conn.close()
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
 
 @app.route('/employees')
 def employees():
@@ -51,9 +67,11 @@ def employees():
         return redirect(url_for('index'))
     return render_template('employees.html')
 
+
 @app.route('/')
 def index():
     return render_template('login.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
