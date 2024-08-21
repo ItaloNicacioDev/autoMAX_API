@@ -1,8 +1,7 @@
 #ver 0.0.40 - BETA
 #bibliotecas
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-
-
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from app import app
 
 app = Flask(__name__)
 
@@ -37,6 +36,10 @@ def register():
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/')
+def employees():
+    return render_template('employees.html')
 
 
 if __name__ == '__main__':
