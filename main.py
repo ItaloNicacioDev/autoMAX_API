@@ -12,7 +12,7 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY',
 
 # Configurações do banco de dados
 DB_CONFIG = {
-    'host': 'localhost',
+    'host': '127.0.0.1:3306',
     'database': 'automax',
     'user': 'root',
     'password': os.environ.get('DB_PASSWORD', '@Eufr4sio123')  # Use uma variável de ambiente para a senha
@@ -70,7 +70,7 @@ def employees():
 
 @app.route('/')
 def index():
-    return render_template('login.html')
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
