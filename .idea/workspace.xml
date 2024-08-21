@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35cae1ff-e439-4b32-b70c-99fa7a146118" name="Changes" comment="ver 0.0.35">
+    <list default="true" id="35cae1ff-e439-4b32-b70c-99fa7a146118" name="Changes" comment="ver 0.0.40">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,7 +216,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724261144317</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="ver 0.0.40">
+      <option name="closed" value="true" />
+      <created>1724261900069</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1724261900069</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -228,17 +235,7 @@
     <MESSAGE value="ver 0.0.14" />
     <MESSAGE value="ver 0.0.25" />
     <MESSAGE value="ver 0.0.35" />
-    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.35" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>43</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="ver 0.0.40" />
+    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.40" />
   </component>
 </project>
