@@ -1,23 +1,21 @@
-# ver 0.0.37 - BETA
 # bibliotecas
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
 from mysql.connector import Error
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('FLASK_SECRET_KEY',
-                                'supersecretkey')  # Use uma variável de ambiente para a chave secreta
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'supersecretkey')  # Use uma variável de ambiente para a chave secreta
 
 # Configurações do banco de dados
 DB_CONFIG = {
-    'host': '127.0.0.1:3306',
+    'host': '192.168.15.6',  # Atualize para o IP ou hostname correto
+    'port': 3306,
     'database': 'automax',
     'user': 'root',
     'password': os.environ.get('DB_PASSWORD', '@Eufr4sio123')  # Use uma variável de ambiente para a senha
 }
-
 
 def get_db_connection():
     """ Cria e retorna uma nova conexão com o banco de dados. """
@@ -28,12 +26,13 @@ def get_db_connection():
         print(f"Error connecting to MySQL: {e}")
         return None
 
-
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
+    conn = None
+    cursor = None
     try:
         conn = get_db_connection()
         if conn is None:
@@ -60,18 +59,15 @@ def login():
         if conn:
             conn.close()
 
-
 @app.route('/employees')
 def employees():
     if 'user_id' not in session:
         return redirect(url_for('index'))
     return render_template('employees.html')
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
-if __name__ == '__main__':
+if __name__ == '__main__':  # Corrigido para __main__
     app.run(debug=True)
