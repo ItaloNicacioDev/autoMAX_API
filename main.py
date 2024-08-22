@@ -1,30 +1,63 @@
-# bibliotecas
+import binary
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
-from mysql.connector import Error
-from werkzeug.security import check_password_hash, generate_password_hash
+from mysql.connector import Error as MySQLError
+import psycopg2
+from psycopg2 import OperationalError as PostgresError
+from werkzeug.security import check_password_hash
 import os
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'supersecretkey')  # Use uma variável de ambiente para a chave secreta
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'supersecretkey')
 
 # Configurações do banco de dados
-DB_CONFIG = {
-    'host': '192.168.15.6',  # Atualize para o IP ou hostname correto
+DB_CONFIG_MYSQL = {
+    'host': 'localhost',
     'port': 3306,
     'database': 'automax',
     'user': 'root',
-    'password': os.environ.get('DB_PASSWORD', '@Eufr4sio123')  # Use uma variável de ambiente para a senha
+    'password': os.environ.get('DB_PASSWORD', '@Eufr4sio123')
 }
 
+DB_CONFIG_POSTGRES = {
+    'host': 'localhost',
+    'port': 5432,
+    'database': 'automax',
+    'user': 'postgres',
+    'password': os.environ.get('DB_PASSWORD', '@Eufr4sio123')
+}
+
+
 def get_db_connection():
-    """ Cria e retorna uma nova conexão com o banco de dados. """
+    """ Cria e retorna uma nova conexão com o banco de dados, tentando MySQL e PostgreSQL. """
+    connection = None
     try:
-        connection = mysql.connector.connect(**DB_CONFIG)
-        return connection
-    except Error as e:
-        print(f"Error connecting to MySQL: {e}")
-        return None
+        # Tentar conectar ao MySQL
+        connection = mysql.connector.connect(
+            host=DB_CONFIG_MYSQL['host'],
+            port=DB_CONFIG_MYSQL['port'],
+            database=DB_CONFIG_MYSQL['database'],
+            user=DB_CONFIG_MYSQL['user'],
+            password=DB_CONFIG_MYSQL['password']
+        )
+        print("Conectado ao MySQL com sucesso!")
+    except MySQLError as e:
+        print(f"Erro ao conectar ao MySQL: {e}")
+        try:
+            # Se a conexão MySQL falhar, tentar conectar ao PostgreSQL
+            connection = psycopg2.connect(
+                host=DB_CONFIG_POSTGRES['host'],
+                port=DB_CONFIG_POSTGRES['port'],
+                dbname=DB_CONFIG_POSTGRES['database'],
+                user=DB_CONFIG_POSTGRES['user'],
+                password=DB_CONFIG_POSTGRES['password']
+            )
+            print("Conectado ao PostgreSQL com sucesso!")
+        except PostgresError as e:
+            print(f"Erro ao conectar ao PostgreSQL: {e}")
+            return None
+    return connection
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -39,8 +72,13 @@ def login():
             flash('Erro ao conectar ao banco de dados.', 'error')
             return redirect(url_for('index'))
 
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM empresasUser WHERE username = %s', (username,))
+        if conn.__class__.__name__ == 'MySQLConnection':
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute('SELECT * FROM empresasUser WHERE username = %s', (username,))
+        elif conn.__class__.__name__ == 'connection':
+            cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+            cursor.execute('SELECT * FROM empresasUser WHERE username = %s', (username,))
+
         user = cursor.fetchone()
 
         if user and check_password_hash(user['password'], password):
@@ -59,15 +97,18 @@ def login():
         if conn:
             conn.close()
 
-@app.route('/employees')
+
+@app.route('/employees')  # página de cadastro de funcionário
 def employees():
     if 'user_id' not in session:
         return redirect(url_for('index'))
     return render_template('employees.html')
 
-@app.route('/')
+
+@app.route('/')  # página inicial
 def index():
     return render_template('index.html')
 
-if __name__ == '__main__':  # Corrigido para __main__
+
+if __name__ == '__main__':
     app.run(debug=True)
