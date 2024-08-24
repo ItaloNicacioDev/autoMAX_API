@@ -10,8 +10,8 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'supersecretkey')  # Use uma
 
 # Configurações do banco de dados
 DB_CONFIG = {
-    'host': 'localhost',        # Alterado para 'localhost'
-    'port': '3307',             # Porta padrão do MySQL
+    'host': 'localhost',
+    'port': '3307',  # Porto padrão do MySQL
     'database': 'automax',
     'user': 'root',
     'password': os.environ.get('DB_PASSWORD', '@Eufr4sio123')  # Use uma variável de ambiente para a senha
@@ -31,8 +31,8 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    cursor = None
     conn = None
+    cursor = None
     try:
         conn = get_db_connection()
         if conn is None:
@@ -40,7 +40,7 @@ def login():
             return redirect(url_for('index'))
 
         cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM empresasUser WHERE username = %s', (username,))
+        cursor.execute('SELECT * FROM empresasuser WHERE username = %s', (username,))
         user = cursor.fetchone()
 
         if user and check_password_hash(user['password'], password):
@@ -50,7 +50,7 @@ def login():
             flash('Usuário ou senha inválidos.', 'error')
             return redirect(url_for('index'))
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {e}")  # Mensagem detalhada para depuração
         flash('Erro ao processar sua solicitação.', 'error')
         return redirect(url_for('index'))
     finally:
