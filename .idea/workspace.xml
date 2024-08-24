@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35cae1ff-e439-4b32-b70c-99fa7a146118" name="Changes" comment="ver 0.0.47 ==BETA">
+    <list default="true" id="35cae1ff-e439-4b32-b70c-99fa7a146118" name="Changes" comment="ver 0.0.48 ==BETA">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
@@ -289,7 +289,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724358726441</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="ver 0.0.48 ==BETA">
+      <option name="closed" value="true" />
+      <created>1724429541986</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1724429541986</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -303,6 +311,7 @@
     <MESSAGE value="ver 0.0.40" />
     <MESSAGE value="ver 0.0.41" />
     <MESSAGE value="ver 0.0.47 ==BETA" />
-    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.47 ==BETA" />
+    <MESSAGE value="ver 0.0.48 ==BETA" />
+    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.48 ==BETA" />
   </component>
 </project>
