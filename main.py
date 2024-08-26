@@ -1,6 +1,6 @@
 # bibliotecas
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-import MySQLdb  # Usando MySQLdb para conectar ao MySQL/MariaDB
+import pymysql  # Usar PyMySQL para conectar ao MySQL/MariaDB
 from werkzeug.security import check_password_hash
 import os
 from dotenv import load_dotenv
@@ -15,25 +15,25 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'ItaloNicacioDEV')  # Use um
 
 # Configurações do banco de dados
 DB_CONFIG = {
-    'host': os.environ.get('DB_HOST', '127.0.0.1'),  # Normalmente '127.0.0.1' ou 'localhost'
-    'port': int(os.environ.get('DB_PORT', 3306)),  # Porta padrão para MySQL/MariaDB é 3306
+    'host': os.environ.get('DB_HOST', '127.0.0.1'),
+    'port': int(os.environ.get('DB_PORT', 3306)),
     'database': os.environ.get('DB_NAME', 'automax'),
     'user': os.environ.get('DB_USER', 'root'),
-    'password': os.environ.get('DB_PASSWORD', ''),  # Senha padrão pode estar vazia para root
+    'password': os.environ.get('DB_PASSWORD', ''),
 }
 
 def get_db_connection():
     """ Cria e retorna uma nova conexão com o banco de dados. """
     try:
-        connection = MySQLdb.connect(
+        connection = pymysql.connect(
             host=DB_CONFIG['host'],
             port=DB_CONFIG['port'],
-            db=DB_CONFIG['database'],
+            database=DB_CONFIG['database'],
             user=DB_CONFIG['user'],
-            passwd=DB_CONFIG['password']
+            password=DB_CONFIG['password']
         )
         return connection
-    except MySQLdb.Error as e:
+    except pymysql.MySQLError as e:
         print(f"Error connecting to database: {e}")
         return None
 
@@ -50,7 +50,7 @@ def login():
             flash('Erro ao conectar ao banco de dados.', 'error')
             return redirect(url_for('index'))
 
-        cursor = conn.cursor(MySQLdb.cursors.DictCursor)  # Usar DictCursor para dicionários
+        cursor = conn.cursor(pymysql.cursors.DictCursor)  # Usar DictCursor para dicionários
         cursor.execute('SELECT * FROM empresasuser WHERE username = %s', (username,))
         user = cursor.fetchone()
 
@@ -61,7 +61,7 @@ def login():
         else:
             flash('Usuário ou senha inválidos.', 'error')
             return redirect(url_for('index'))
-    except MySQLdb.Error as e:
+    except pymysql.MySQLError as e:
         print(f"Database error: {e}")
         flash('Erro ao processar sua solicitação.', 'error')
         return redirect(url_for('index'))
