@@ -1,9 +1,13 @@
 import logging
+
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import pymysql
 from werkzeug.security import check_password_hash
 import os
 from dotenv import load_dotenv
+
+import socket
 
 # Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
@@ -18,11 +22,7 @@ logging.basicConfig(filename='app.log', level=logging.ERROR, format='%(asctime)s
 
 # Configurações do banco de dados
 DB_CONFIG = {
-    'host': os.environ.get('DB_HOST', '127.0.0.1'),
-    'port': int(os.environ.get('DB_PORT', 3306)),
-    'database': os.environ.get('DB_NAME', 'automax'),
-    'user': os.environ.get('DB_USER', 'root'),
-    'password': os.environ.get('DB_PASSWORD', ''),
+    'host': os.environ.get('DB_HOST', 'POSTGRES_PRISMA_URL="postgres://default:a1D6IXQoWiPT@ep-young-mud-a46g29gr-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require&pgbouncer=true&connect_timeout=15'),
 }
 
 def get_db_connection():

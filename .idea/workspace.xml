@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35cae1ff-e439-4b32-b70c-99fa7a146118" name="Changes" comment="ver 0.0.62&#10;&#10;VERSÃO OFICIAL">
+    <list default="true" id="35cae1ff-e439-4b32-b70c-99fa7a146118" name="Changes" comment="ver 0.0.63&#10;&#10;VERSÃO OFICIAL">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -373,7 +374,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724705943278</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="ver 0.0.63&#10;&#10;VERSÃO OFICIAL">
+      <option name="closed" value="true" />
+      <created>1724781576671</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1724781576671</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -396,6 +405,7 @@
     <MESSAGE value="ver 0.0.60" />
     <MESSAGE value="ver 0.0.60&#10;&#10;VERSÃO OFICIAL" />
     <MESSAGE value="ver 0.0.62&#10;&#10;VERSÃO OFICIAL" />
-    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.62&#10;&#10;VERSÃO OFICIAL" />
+    <MESSAGE value="ver 0.0.63&#10;&#10;VERSÃO OFICIAL" />
+    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.63&#10;&#10;VERSÃO OFICIAL" />
   </component>
 </project>
